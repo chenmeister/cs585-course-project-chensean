@@ -4,10 +4,6 @@ from email.MIMEMultipart import MIMEMultipart
 from email.MIMEText import MIMEText
 from time import strftime
 
-#google maps, twitter, instagram, my own simple api, uber
-
-#each url has its own thread
-
 username = raw_input("Enter Gmail Username (no @gmail.com after): ")
 password = getpass.getpass("Enter Gmail Password: ")
 
