@@ -4,29 +4,12 @@ from email.MIMEMultipart import MIMEMultipart
 from email.MIMEText import MIMEText
 from time import strftime
 
-username = raw_input("Enter Gmail Username (no @gmail.com after): ")
-password = getpass.getpass("Enter Gmail Password: ")
-
-#from to email to sent alert
-fromEmail = username + "@gmail.com"
-toEmail = "chensean.cs@gmail.com"
-
-#prompt user for a test link
-testlink = raw_input("Enter URL to test: ");
-
-msg = MIMEMultipart()
-msg['From'] = fromEmail
-msg['To'] = toEmail
-msg['Subject'] = 'Alert! Service is Down for '+testlink
-
-reported = False
-
-while True:
+def get_result(url, reported, msg):
 	buffer = StringIO()
 	c = pycurl.Curl()
 
 	try:
-		c.setopt(c.URL, testlink)
+		c.setopt(c.URL, url)
 		c.setopt(c.WRITEDATA, buffer)
 		c.perform()
 		c.close()
@@ -40,7 +23,7 @@ while True:
 			reported = True
 			errstr = error
 			body = 'An error occured: ' + str(errstr) + '\n'
-			body += "The web server is down for "+testlink+".\n"
+			body += "The web server is down for "+url+".\n"
 			body += "Please check if server is on or contact your IT personel to resolve this issue.\n"
 			body += "Time and Date of this issue: "+strftime("%m/%d/%Y %I:%M %p %Z")+"\n"
 			
@@ -54,4 +37,31 @@ while True:
 			s.quit()			
 			print body
 
+
+username = raw_input("Enter Gmail Username (no @gmail.com after): ")
+password = getpass.getpass("Enter Gmail Password: ")
+
+#from to email to sent alert
+fromEmail = username + "@gmail.com"
+toEmail = "chensean.cs@gmail.com"
+
+#prompt user for a test link
+#testlink = raw_input("Enter URL to test: ");
+
+reported = False
+
+testlink = ["http://localhost:8080/greeting", 
+"https://api.twitter.com/1.1/statuses/mentions_timeline.json"]
+
+while True:
+	
+	for u in testlink:
+		
+		msg = MIMEMultipart()
+		msg['From'] = fromEmail
+		msg['To'] = toEmail
+		msg['Subject'] = 'Alert! Service is Down for '+u
+		
+		get_result(u, reported, msg)
+	
 	time.sleep(60)
