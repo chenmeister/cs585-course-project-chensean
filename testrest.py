@@ -1,4 +1,5 @@
 import requests, smtplib, time, getpass, twitter
+import signal, sys
 from email.MIMEMultipart import MIMEMultipart
 from email.MIMEText import MIMEText
 from time import strftime
@@ -98,7 +99,27 @@ def get_result(url, reported, msg, api, type):
 			s.quit()			
 			print body
 
+def exit_gracefully(signum, frame):
+    # restore the original signal handler as otherwise evil things will happen
+    # in raw_input when CTRL+C is pressed, and our signal handler is not re-entrant
+    signal.signal(signal.SIGINT, original_sigint)
+
+    try:
+        if raw_input("\nReally quit? (y/n)> ").lower().startswith('y'):
+            sys.exit(1)
+
+    except KeyboardInterrupt:
+        print("Ok ok, quitting")
+        sys.exit(1)
+
+    # restore the exit gracefully handler here    
+    signal.signal(signal.SIGINT, exit_gracefully)
+
 if __name__ == '__main__':
+
+	# store the original SIGINT handler
+	original_sigint = signal.getsignal(signal.SIGINT)
+	signal.signal(signal.SIGINT, exit_gracefully)
 
 	#asks user for gmail account
 	username = raw_input("Enter Gmail Username (no @gmail.com after): ")

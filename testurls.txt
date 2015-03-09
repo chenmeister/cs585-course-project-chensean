@@ -1,0 +1,7 @@
+http://localhost:8080/greeting
+https://api.instagram.com/v1/media/popular?client_secret=329a3d6c2d544e929c64b0ab4adf3c18&client_id=446407160f25466584b2a90fe3854f77
+http://www.bbc.co.uk/radio1/playlist.json
+https://www.googleapis.com/books/v1/volumes?q=isbn:0747532699
+https://maps.googleapis.com/maps/api/geocode/json?address=Oxford%20University,%20uk&sensor=false
+http://urls.api.twitter.com/1/urls/count.json?url=http://www.bbc.co.uk/news/technology-26879185
+https://itunes.apple.com/search?term=beyonce&entity=musicVideo

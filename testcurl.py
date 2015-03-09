@@ -1,4 +1,5 @@
 import pycurl, smtplib, time, getpass, twitter
+import signal, sys
 from StringIO import StringIO
 from email.MIMEMultipart import MIMEMultipart
 from email.MIMEText import MIMEText
@@ -39,7 +40,28 @@ def get_result(url, reported, msg):
 			s.quit()			
 			print body
 
+def exit_gracefully(signum, frame):
+    # restore the original signal handler as otherwise evil things will happen
+    # in raw_input when CTRL+C is pressed, and our signal handler is not re-entrant
+    signal.signal(signal.SIGINT, original_sigint)
+
+    try:
+        if raw_input("\nReally quit? (y/n)> ").lower().startswith('y'):
+            sys.exit(1)
+
+    except KeyboardInterrupt:
+        print("Ok ok, quitting")
+        sys.exit(1)
+
+    # restore the exit gracefully handler here    
+    signal.signal(signal.SIGINT, exit_gracefully)
+
 if __name__ == '__main__':
+	
+	# store the original SIGINT handler
+	original_sigint = signal.getsignal(signal.SIGINT)
+	signal.signal(signal.SIGINT, exit_gracefully)
+	
 	#asks user for gmail account
 	username = raw_input("Enter Gmail Username (no @gmail.com after): ")
 	password = getpass.getpass("Enter Gmail Password: ")
@@ -51,15 +73,15 @@ if __name__ == '__main__':
 	#set email report to false
 	reported = False
 
-	testlink = raw_input("Enter HTTP Call: ")
-		
+	#Get the links of the URL's to Test	
+	getLinks = [line.strip() for line in open('testurls.txt')]
+
+	#keeps the link running and checks the URL's periodically		
 	while True:
-	
-		msg = MIMEMultipart()
-		msg['From'] = fromEmail
-		msg['To'] = toEmail
-		msg['Subject'] = 'Alert! Service is Down for '+testlink
-		
-		get_result(testlink, reported, msg)
-			
+		for link in getLinks:
+			msg = MIMEMultipart()
+			msg['From'] = fromEmail
+			msg['To'] = toEmail
+			msg['Subject'] = 'Alert! Service is Down for '+link
+			get_result(link, reported, msg)
 		time.sleep(60)
