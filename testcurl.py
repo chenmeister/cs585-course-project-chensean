@@ -55,12 +55,11 @@ if __name__ == '__main__':
 		
 	while True:
 	
+		msg = MIMEMultipart()
+		msg['From'] = fromEmail
+		msg['To'] = toEmail
+		msg['Subject'] = 'Alert! Service is Down for '+testlink
 		
-			msg = MIMEMultipart()
-			msg['From'] = fromEmail
-			msg['To'] = toEmail
-			msg['Subject'] = 'Alert! Service is Down for '+testlink
-		
-			get_result(testlink, reported, msg)
-	
+		get_result(testlink, reported, msg)
+			
 		time.sleep(60)
