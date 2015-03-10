@@ -32,3 +32,12 @@
 6. If server is down, it will send alert email notifying the user the API is down
 7. Script will check the urls continously every 60 seconds
 8. To exit the app Ctrl-C
+
+##Source Credits
+http://thomassileo.com/blog/2013/01/25/using-twitter-rest-api-v1-dot-1-with-python/
+
+http://docs.python-requests.org/en/latest/user/quickstart/
+
+https://shkspr.mobi/blog/2014/04/wanted-simple-apis-without-authentication/
+
+http://stackoverflow.com/questions/18114560/python-catch-ctrl-c-command-prompt-really-want-to-quit-y-n-resume-executi
