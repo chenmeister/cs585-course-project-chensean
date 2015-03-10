@@ -68,7 +68,7 @@ if __name__ == '__main__':
 
 	#from to email to sent alert
 	fromEmail = username + "@gmail.com"
-	toEmail = "chensean.cs@gmail.com"
+	toEmail = "cs585finalprojectsc@gmail.com"
 
 	#set email report to false
 	reported = False
