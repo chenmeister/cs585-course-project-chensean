@@ -1,5 +1,13 @@
 # cs585-course-project-chensean
 
+## Summary
+
+In the technology field, HTTP servers go down without notice for whatever reason. The 
+problem is that no alerts are sent to the IT person in charge. To resolve this issue, a Python
+script is written to test the HTTP URLs from a txt file. By using this script, a curl
+command is issued and the user is alerted by email whenever an HTTP URL is down. By using
+this method, it keeps the user notified in the event of a major server issue.
+
 ## To run the RESTService example
 
 1. cd into the directory RESTService
